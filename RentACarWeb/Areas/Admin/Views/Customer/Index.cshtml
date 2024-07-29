@@ -1,0 +1,67 @@
+﻿@using RentACarWeb.Areas.Admin.Models.Customer
+
+@model List<CustomerListVM>
+
+<partial name="/Views/Shared/_Message.cshtml">
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Phone Number</th>
+                    <th>Budget</th>
+                    <th>Available</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>@customer.FullName</td>
+                        <td>@customer.PhoneNumber</td>
+                        <td>@customer.Budget</td>
+                        <td>@customer.isActive</td>
+                        <td>
+                            <a asp-area="Admin" asp-controller="Customer" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@customer.Id">Edit</a>
+                            <a class="btn btn-danger w-25 delete" data-id="@customer.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <a asp-area="Admin" asp-controller="Customer" asp-action="Create" class="btn btn-primary">Create Customer</a>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $(".delete").click(function () {
+                    if (confirm("Are you sure want to delete?")) {
+                        let id = $(this).data("id");
+                        $.ajax({
+                            url: "@Url.Action("Delete", "Customer", new { area = "Admin" })",
+                            type: "POST",
+                            data: { id: id },
+                            success: function (response) {
+                                if (response.success) {
+                                    window.location.reload()
+                                }
+                                else {
+                                    alert(response.message)
+                                }
+                            },
+                            error: function () {
+                                alert("An error occurred");
+                            }
+                        })
+                    }
+                })
+            })
+
+        </script>
+    }

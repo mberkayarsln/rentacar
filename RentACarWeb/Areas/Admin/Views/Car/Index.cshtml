@@ -1,0 +1,70 @@
+﻿@using RentACarWeb.Areas.Admin.Models.Car
+@model List<CarListVM>
+
+<partial name="/Views/Shared/_Message.cshtml" />
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Make</td>
+                    <td>@car.Model</td>
+                    <td>@car.Type</td>
+                    <td>@car.Year</td>
+                    <td>@car.Price</td>
+                    <td>@car.IsActive</td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Car" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@car.Id">Edit</a>
+                        <a class="btn btn-danger w-25 delete" data-id="@car.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <a asp-area="Admin" asp-controller="Car" asp-action="Create" class="btn btn-primary">Create Car</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".delete").click(function () {
+                debugger;
+                if (confirm("Are you sure want to delete?")) {
+                    let id = $(this).data("id");
+                    $.ajax({
+                        url: "@Url.Action("Delete", "Car", new { area = "Admin" })",
+                        type: "POST",
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                window.location.reload();
+                            }
+                            else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert("An error occured");
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+}
