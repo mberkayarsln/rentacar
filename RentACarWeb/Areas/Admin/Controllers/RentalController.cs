@@ -106,6 +106,40 @@ namespace RentACarWeb.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(RentalEditVM viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var rental = new Rental
+            {
+                Id = viewModel.Id,
+                CarId = viewModel.CarId,
+                CustomerId = viewModel.CustomerId,
+                StartingDate = viewModel.StartingDate,
+                EndingDate = viewModel.EndingDate,
+                DateUpdated = DateTime.Now
+            };
+
+            var car = _context.Cars.FirstOrDefault(c => c.Id == rental.CarId);
+            var dateDiff = (rental.EndingDate - rental.StartingDate).Days;
+
+            if (car != null)
+            {
+                var payment = car.Price * dateDiff;
+                rental.Payment = payment;
+            }
+
+            _context.Update(rental);
+            _context.SaveChanges();
+            TempData["message"] = "Rental updated succesfully";
+            return RedirectToAction("Index");
+        }
+
 
         [HttpPost]
         public IActionResult Delete(Guid id)
