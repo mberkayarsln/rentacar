@@ -1,6 +1,8 @@
 ﻿@using RentACarWeb.Areas.Admin.Models.Rental
 @model List<RentalListVM>
 
+<partial name="/Views/Shared/_Message.cshtml" />
+
 <div class="container">
     <table class="table">
         <thead>
@@ -10,20 +12,21 @@
                 <th>Starting Date</th>
                 <th>Ending Date</th>
                 <th>Payment</th>
+                <th>Operations</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var rental in Model)
             {
                 <tr>
-                    <td>@rental.Customer</td>
-                    <td>@rental.Car</td>
+                    <td>@rental.Customer.FirstName @rental.Customer.LastName</td>
+                    <td>@rental.Car.Make @rental.Car.Model</td>
                     <td>@rental.StartingDate</td>
                     <td>@rental.EndingDate</td>
                     <td>@rental.Payment</td>
                     <td>
-                        <a asp-area="Admin" asp-controller="Rental" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@rental.Id">Edit</a>
-                        <a class="btn btn-danger w-25 delete" data-id="@rental.Id">Delete</a>
+                        <a asp-area="Admin" asp-controller="Rental" asp-action="Edit" class="btn btn-info w-50" asp-route-id="@rental.Id">Edit</a>
+                        <a class="btn btn-danger w-50 delete" data-id="@rental.Id">Delete</a>
                     </td>
                 </tr>
             }
@@ -34,3 +37,31 @@
 <div class="container">
     <a asp-area="Admin" asp-controller="Rental" asp-action="Create" class="btn btn-primary">Create Rental</a>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".delete").click(function () {
+                if (confirm("Are you sure want to delete?")) {
+                    let id = $(this).data("id");
+                    $.ajax({
+                        url: "@Url.Action("Delete", "Rental", new { area = "Admin" })",
+                        type: "POST",
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                window.location.reload()
+                            }
+                            else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert("An error occured");
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+}

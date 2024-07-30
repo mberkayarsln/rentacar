@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Data;
+using EntityLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using RentACarWeb.Areas.Admin.Models.Rental;
 
@@ -39,6 +40,93 @@ namespace RentACarWeb.Areas.Admin.Controllers
             viewModel.CustomerCar.Customers = _context.Customers.Where(c => !c.isDeleted).ToList();
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(RentalCreateVM viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var rental = new Rental
+            {
+                CarId = viewModel.CarId,
+                CustomerId = viewModel.CustomerId,
+                StartingDate = viewModel.StartingDate,
+                EndingDate = viewModel.EndingDate,
+            };
+
+            var car = _context.Cars.FirstOrDefault(c => c.Id == rental.CarId);
+            var dateDiff = (rental.EndingDate - rental.StartingDate).Days;
+
+            if (car != null)
+            {
+                var payment = car.Price * dateDiff;
+                rental.Payment = payment;
+            }
+
+            _context.Rentals.Add(rental);
+            _context.SaveChanges();
+
+            TempData["message"] = "Rental created successfully";
+            return RedirectToAction("Index");
+
+        }
+
+
+        public IActionResult Edit(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var rental = _context.Rentals.Where(r => !r.isDeleted).FirstOrDefault(c => c.Id == id);
+
+            if (rental == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new RentalEditVM
+            {
+                Id = rental.Id,
+                CarId = rental.CarId,
+                CustomerId = rental.CustomerId,
+                StartingDate = rental.StartingDate,
+                EndingDate = rental.EndingDate,
+            };
+
+            viewModel.CustomerCar.Cars = _context.Cars.Where(c => !c.isDeleted).ToList();
+            viewModel.CustomerCar.Customers = _context.Customers.Where(c => !c.isDeleted).ToList();
+            
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return Json(new { success = false, message = "Invalid ID" });
+            }
+
+            var rental = _context.Rentals.Where(r => !r.isDeleted).FirstOrDefault(r => r.Id == id);
+
+            if (rental == null)
+            {
+                return Json(new { success = false, message = "Rental not found" });
+            }
+
+            rental.isDeleted = true;
+            rental.DateDeleted = DateTime.Now;
+            _context.SaveChanges();
+            TempData["message"] = "Rental deleted successfully";
+            return Json(new { success = true });
         }
     }
 }
