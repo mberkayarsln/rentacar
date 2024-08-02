@@ -3,24 +3,24 @@
 
 <form method="post">
     <div class="mb-3">
-        <label asp-for="@Model.FirstName"></label>
+        <label asp-for="@Model.FirstName">@ViewBag.FirstName</label>
         <input asp-for="@Model.FirstName" class="form-control" /> 
         <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.LastName"></label>
+        <label asp-for="@Model.LastName">@ViewBag.LastName</label>
         <input asp-for="@Model.LastName" class="form-control" />
         <span asp-validation-for="@Model.LastName" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.PhoneNumber"></label>
+        <label asp-for="@Model.PhoneNumber">@ViewBag.PhoneNumber</label>
         <input asp-for="@Model.PhoneNumber" class="form-control" placeholder="(5**) *** ****" />
         <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Budget"></label>
+        <label asp-for="@Model.Budget">@ViewBag.Budget</label>
         <input asp-for="@Model.Budget" class="form-control" step="1000" />
         <span asp-validation-for="@Model.Budget" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">@ViewBag.Create</button>
 </form>

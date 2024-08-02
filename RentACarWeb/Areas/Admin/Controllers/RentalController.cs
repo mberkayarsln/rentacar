@@ -1,7 +1,9 @@
 ﻿using DataAccessLayer.Data;
 using EntityLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using RentACarWeb.Areas.Admin.Models.Rental;
+using RentACarWeb.Languages;
 
 namespace RentACarWeb.Areas.Admin.Controllers
 {
@@ -10,14 +12,39 @@ namespace RentACarWeb.Areas.Admin.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly IStringLocalizer<Lang> _stringLocalizer;
 
-        public RentalController(ApplicationDbContext context)
+        public RentalController(ApplicationDbContext context,IStringLocalizer<Lang> stringLocalizer)
         {
             _context = context;
+            _stringLocalizer = stringLocalizer;
+        }
+
+        public void SetViewBagProperties()
+        {
+            ViewBag.Rental = _stringLocalizer["page.Rental"];
+            ViewBag.Customer = _stringLocalizer["page.Customer"];
+            ViewBag.Car = _stringLocalizer["page.Car"];
+            ViewBag.StartDate = _stringLocalizer["page.StartDate"];
+            ViewBag.EndDate = _stringLocalizer["page.EndDate"];
+            ViewBag.Payment = _stringLocalizer["page.Payment"];
+            ViewBag.Operations = _stringLocalizer["page.Operations"];
+            ViewBag.Edit = _stringLocalizer["page.Edit"];
+            ViewBag.Delete = _stringLocalizer["page.Delete"];
+            ViewBag.Create = _stringLocalizer["page.Create"];
+            ViewBag.DeleteMessage = _stringLocalizer["page.DeleteMessage"];
+            //Layout
+            ViewBag.HomeLink = _stringLocalizer["page.MainHome"];
+            ViewBag.AdminLink = _stringLocalizer["page.MainAdminLink"];
+            ViewBag.English = _stringLocalizer["page.English"];
+            ViewBag.Turkish = _stringLocalizer["page.Turkish"];
         }
 
         public IActionResult Index()
         {
+
+            SetViewBagProperties();
+
             var rentals = _context.Rentals.Where(r => !r.isDeleted).Select(r => new RentalListVM
             {
                 Id = r.Id,
@@ -34,6 +61,8 @@ namespace RentACarWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            SetViewBagProperties();
+
             var viewModel = new RentalCreateVM();
 
             viewModel.CustomerCar.Cars = _context.Cars.Where(c => !c.isDeleted).ToList();
@@ -48,6 +77,8 @@ namespace RentACarWeb.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                SetViewBagProperties();
+
                 return View(viewModel);
             }
 
@@ -102,7 +133,9 @@ namespace RentACarWeb.Areas.Admin.Controllers
 
             viewModel.CustomerCar.Cars = _context.Cars.Where(c => !c.isDeleted).ToList();
             viewModel.CustomerCar.Customers = _context.Customers.Where(c => !c.isDeleted).ToList();
-            
+
+            SetViewBagProperties();
+
             return View(viewModel);
         }
 
@@ -112,6 +145,8 @@ namespace RentACarWeb.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                SetViewBagProperties();
+
                 return View(viewModel);
             }
 

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using RentACarWeb.Languages;
 using RentACarWeb.Models;
 using System.Diagnostics;
 
@@ -6,15 +8,30 @@ namespace RentACarWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+
+        private readonly IStringLocalizer<Lang> _stringLocalizer;
+
+        public HomeController(IStringLocalizer<Lang> stringLocalizer)
         {
-            return View();
+            _stringLocalizer = stringLocalizer;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public void SetViewBagProperties()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.PageHome = _stringLocalizer["page.MainHome"];
+            ViewBag.PageText = _stringLocalizer["page.MainText"];
+
+            //Layout
+            ViewBag.HomeLink = _stringLocalizer["page.MainHome"];
+            ViewBag.AdminLink = _stringLocalizer["page.MainAdminLink"];
+            ViewBag.English = _stringLocalizer["page.English"];
+            ViewBag.Turkish = _stringLocalizer["page.Turkish"];
+        }
+
+        public IActionResult Index()
+        {
+            SetViewBagProperties();
+            return View();
         }
     }
 }

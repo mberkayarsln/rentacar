@@ -4,34 +4,34 @@
 <form method="post">
     <input type="hidden" asp-for="@Model.Id" />
     <div class="mb-3">
-        <label asp-for="@Model.Make"></label>
+        <label asp-for="@Model.Make">@ViewBag.Make</label>
         <input asp-for="@Model.Make" class="form-control" />
         <span asp-validation-for="@Model.Make" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Model"></label>
+        <label asp-for="@Model.Model">@ViewBag.Model</label>
         <input asp-for="@Model.Model" class="form-control" />
         <span asp-validation-for="@Model.Model" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Type"></label>
+        <label asp-for="@Model.Type">@ViewBag.Type</label>
         <input asp-for="@Model.Type" class="form-control" />
         <span asp-validation-for="@Model.Type" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Year"></label>
+        <label asp-for="@Model.Year">@ViewBag.Year</label>
         <input asp-for="@Model.Year" class="form-control" min="1960" value="2000" />
         <span asp-validation-for="@Model.Year" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.Price"></label>
+        <label asp-for="@Model.Price">@ViewBag.Price</label>
         <input asp-for="@Model.Price" class="form-control" min="10000" step="1000" />
         <span asp-validation-for="@Model.Price" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="@Model.isActive"></label>
+        <label asp-for="@Model.isActive">@ViewBag.Available</label>
         <input type="checkbox" class="form-check" asp-for="@Model.isActive" />
         <span asp-validation-for="@Model.isActive" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">@ViewBag.Edit</button>
 </form>

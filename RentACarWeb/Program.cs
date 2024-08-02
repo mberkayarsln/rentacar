@@ -1,15 +1,40 @@
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
+using RentACarWeb.Extensions;
+using RentACarWeb.Middleware;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddViewLocalization();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+builder.Services.AddScoped<RequestLocalizationCookiesMiddleware>();
+
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new("en-US");
+
+    CultureInfo[] cultures = new CultureInfo[]
+    {
+        new("tr-TR"),
+        new("en-US")
+    };
+
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
 });
 
 var app = builder.Build();
@@ -26,6 +51,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseRequestLocalization();
+app.UseRequestLocalizationCookies();
 
 app.UseAuthorization();
 

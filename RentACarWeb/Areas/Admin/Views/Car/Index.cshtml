@@ -7,13 +7,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Type</th>
-                <th>Year</th>
-                <th>Price</th>
-                <th>Available</th>
-                <th>Operations</th>
+                <th>@ViewBag.Make</th>
+                <th>@ViewBag.Model</th>
+                <th>@ViewBag.Type</th>
+                <th>@ViewBag.Year</th>
+                <th>@ViewBag.Price</th>
+                <th>@ViewBag.Available</th>
+                <th>@ViewBag.Operations</th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +27,8 @@
                     <td>@car.Price</td>
                     <td>@car.IsActive</td>
                     <td>
-                        <a asp-area="Admin" asp-controller="Car" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@car.Id">Edit</a>
-                        <a class="btn btn-danger w-25 delete" data-id="@car.Id">Delete</a>
+                        <a asp-area="Admin" asp-controller="Car" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@car.Id">@ViewBag.Edit</a>
+                        <a class="btn btn-danger w-25 delete" data-id="@car.Id">@ViewBag.Delete</a>
                     </td>
                 </tr>
             }
@@ -37,15 +37,15 @@
 </div>
 
 <div class="container">
-    <a asp-area="Admin" asp-controller="Car" asp-action="Create" class="btn btn-primary">Create Car</a>
+    <a asp-area="Admin" asp-controller="Car" asp-action="Create" class="btn btn-primary">@ViewBag.Create @ViewBag.Car</a>
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
             $(".delete").click(function () {
-                debugger;
-                if (confirm("Are you sure want to delete?")) {
+                let deleteMessage = "@ViewBag.DeleteMessage"
+                if (confirm(deleteMessage)) {
                     let id = $(this).data("id");
                     $.ajax({
                         url: "@Url.Action("Delete", "Car", new { area = "Admin" })",

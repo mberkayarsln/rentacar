@@ -8,11 +8,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Full Name</th>
-                    <th>Phone Number</th>
-                    <th>Budget</th>
-                    <th>Available</th>
-                    <th>Operations</th>
+                    <th>@ViewBag.FullName</th>
+                    <th>@ViewBag.PhoneNumber</th>
+                    <th>@ViewBag.Budget</th>
+                    <th>@ViewBag.Available</th>
+                    <th>@ViewBag.Operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,8 +24,8 @@
                         <td>@customer.Budget</td>
                         <td>@customer.isActive</td>
                         <td>
-                            <a asp-area="Admin" asp-controller="Customer" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@customer.Id">Edit</a>
-                            <a class="btn btn-danger w-25 delete" data-id="@customer.Id">Delete</a>
+                            <a asp-area="Admin" asp-controller="Customer" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@customer.Id">@ViewBag.Edit</a>
+                            <a class="btn btn-danger w-25 delete" data-id="@customer.Id">@ViewBag.Delete</a>
                         </td>
                     </tr>
                 }
@@ -34,14 +34,15 @@
     </div>
 
     <div class="container">
-        <a asp-area="Admin" asp-controller="Customer" asp-action="Create" class="btn btn-primary">Create Customer</a>
+        <a asp-area="Admin" asp-controller="Customer" asp-action="Create" class="btn btn-primary">@ViewBag.Create @ViewBag.Customer</a>
     </div>
 
     @section Scripts {
         <script>
             $(document).ready(function () {
                 $(".delete").click(function () {
-                    if (confirm("Are you sure want to delete?")) {
+                    let deleteMessage = "@ViewBag.DeleteMessage"
+                    if (confirm(deleteMessage)) {
                         let id = $(this).data("id");
                         $.ajax({
                             url: "@Url.Action("Delete", "Customer", new { area = "Admin" })",
