@@ -1,8 +1,10 @@
-﻿@{
+﻿@inject IHtmlLocalizer<Lang> Localizer;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">@ViewBag.PageHome</h1>
-    <p class="fs-3">@ViewBag.PageText</p>
+    <h1 class="display-4">@Localizer["page.MainHome"]</h1>
+    <p class="fs-3">@Localizer["page.MainText"]</p>
 </div>

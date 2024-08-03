@@ -1,5 +1,5 @@
 ﻿@using RentACarWeb.Areas.Admin.Models.Customer
-
+@inject IHtmlLocalizer<Lang> Localizer
 @model List<CustomerListVM>
 
 <partial name="/Views/Shared/_Message.cshtml">
@@ -8,11 +8,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>@ViewBag.FullName</th>
-                    <th>@ViewBag.PhoneNumber</th>
-                    <th>@ViewBag.Budget</th>
-                    <th>@ViewBag.Available</th>
-                    <th>@ViewBag.Operations</th>
+                    <th>@Localizer["page.FullName"]</th>
+                    <th>@Localizer["page.PhoneNumber"]</th>
+                    <th>@Localizer["page.Budget"]</th>
+                    <th>@Localizer["page.Available"]</th>
+                    <th>@Localizer["page.Operations"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,8 +24,8 @@
                         <td>@customer.Budget</td>
                         <td>@customer.isActive</td>
                         <td>
-                            <a asp-area="Admin" asp-controller="Customer" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@customer.Id">@ViewBag.Edit</a>
-                            <a class="btn btn-danger w-25 delete" data-id="@customer.Id">@ViewBag.Delete</a>
+                            <a asp-area="Admin" asp-controller="Customer" asp-action="Edit" class="btn btn-info w-25" asp-route-id="@customer.Id">@Localizer["page.Edit"]</a>
+                            <a class="btn btn-danger w-25 delete" data-id="@customer.Id">@Localizer["page.Delete"]</a>
                         </td>
                     </tr>
                 }
@@ -34,14 +34,14 @@
     </div>
 
     <div class="container">
-        <a asp-area="Admin" asp-controller="Customer" asp-action="Create" class="btn btn-primary">@ViewBag.Create @ViewBag.Customer</a>
+        <a asp-area="Admin" asp-controller="Customer" asp-action="Create" class="btn btn-primary">@Localizer["page.Create"] @Localizer["page.Customer"]</a>
     </div>
 
     @section Scripts {
         <script>
             $(document).ready(function () {
                 $(".delete").click(function () {
-                    let deleteMessage = "@ViewBag.DeleteMessage"
+                    let deleteMessage = "@Localizer["page.DeleteMessage"]"
                     if (confirm(deleteMessage)) {
                         let id = $(this).data("id");
                         $.ajax({

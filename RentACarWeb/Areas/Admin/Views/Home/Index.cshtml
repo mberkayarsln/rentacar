@@ -1,5 +1,7 @@
-﻿<div class="d-flex justify-content-center gap-5 my-5">
-    <a class="btn btn-primary w-25" asp-controller="Customer" asp-action="Index">@ViewBag.Customer</a>
-    <a class="btn btn-primary w-25" asp-controller="Car" asp-action="Index">@ViewBag.Car</a>
-    <a class="btn btn-primary w-25" asp-controller="Rental" asp-action="Index">@ViewBag.Rental</a>
+﻿@inject IHtmlLocalizer<Lang> Localizer;
+
+<div class="d-flex justify-content-center gap-5 my-5">
+    <a class="btn btn-primary w-25" asp-controller="Customer" asp-action="Index">@Localizer["page.Customer"]</a>
+    <a class="btn btn-primary w-25" asp-controller="Car" asp-action="Index">@Localizer["page.Car"]</a>
+    <a class="btn btn-primary w-25" asp-controller="Rental" asp-action="Index">@Localizer["page.Rental"]</a>
 </div>

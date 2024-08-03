@@ -12,38 +12,14 @@ namespace RentACarWeb.Areas.Admin.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-        private readonly IStringLocalizer<Lang> _stringLocalizer;
 
-        public CustomerController(ApplicationDbContext context, IStringLocalizer<Lang> stringLocalizer)
+        public CustomerController(ApplicationDbContext context)
         {
             _context = context;
-            _stringLocalizer = stringLocalizer;
-        }
-
-        public void SetViewBagProperties()
-        {
-            ViewBag.FullName = _stringLocalizer["page.FullName"];
-            ViewBag.PhoneNumber = _stringLocalizer["page.PhoneNumber"];
-            ViewBag.Budget = _stringLocalizer["page.Budget"];
-            ViewBag.Available = _stringLocalizer["page.Available"];
-            ViewBag.Operations = _stringLocalizer["page.Operations"];
-            ViewBag.Edit = _stringLocalizer["page.Edit"];
-            ViewBag.Delete = _stringLocalizer["page.Delete"];
-            ViewBag.Create = _stringLocalizer["page.Create"];
-            ViewBag.Customer = _stringLocalizer["page.Customer"];
-            ViewBag.FirstName = _stringLocalizer["page.FirstName"];
-            ViewBag.LastName = _stringLocalizer["page.LastName"];
-            ViewBag.DeleteMessage = _stringLocalizer["page.DeleteMessage"];
-            //Layout
-            ViewBag.HomeLink = _stringLocalizer["page.MainHome"];
-            ViewBag.AdminLink = _stringLocalizer["page.MainAdminLink"];
-            ViewBag.English = _stringLocalizer["page.English"];
-            ViewBag.Turkish = _stringLocalizer["page.Turkish"];
         }
 
         public IActionResult Index()
         {
-            SetViewBagProperties();
             var customers = _context.Customers.Where(c => !c.isDeleted).Select(c => new CustomerListVM
             {
                 Id = c.Id,
@@ -58,7 +34,6 @@ namespace RentACarWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            SetViewBagProperties();
             return View();
         }
 
@@ -68,7 +43,6 @@ namespace RentACarWeb.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                SetViewBagProperties();
                 return View(viewModel);
             }
 
@@ -110,8 +84,6 @@ namespace RentACarWeb.Areas.Admin.Controllers
                 isActive = customer.isActive,
             };
 
-            SetViewBagProperties();
-
             return View(viewModel);
         }
 
@@ -121,7 +93,6 @@ namespace RentACarWeb.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                SetViewBagProperties();
                 return View(viewModel);
             }
 

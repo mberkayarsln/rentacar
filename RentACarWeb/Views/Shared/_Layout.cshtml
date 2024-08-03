@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IHtmlLocalizer<Lang> Localizer;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,18 +22,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@ViewBag.HomeLink</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["page.MainHome"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">@ViewBag.AdminLink</a>
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">@Localizer["page.MainAdminLink"]</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="btn nav-link text-primary fw-bold en">@ViewBag.English</a>
+                            <a class="btn nav-link text-primary fw-bold en">@Localizer["page.English"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn nav-link text-danger fw-bold tr">@ViewBag.Turkish</a>
+                            <a class="btn nav-link text-danger fw-bold tr">@Localizer["page.Turkish"]</a>
                         </li>
                     </ul>
                 </div>
