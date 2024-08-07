@@ -5,7 +5,7 @@ using RentACarWeb.Languages;
 namespace RentACarWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

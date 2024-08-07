@@ -1,4 +1,6 @@
 using DataAccessLayer.Data;
+using EntityLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentACarWeb.Extensions;
 using RentACarWeb.Middleware;
@@ -14,6 +16,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddIdentity<Customer,IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 5;
+
+    options.User.RequireUniqueEmail = true;
+
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddLocalization(options =>
 {
@@ -54,6 +67,7 @@ app.UseRouting();
 app.UseRequestLocalization();
 app.UseRequestLocalizationCookies();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAreaControllerRoute(

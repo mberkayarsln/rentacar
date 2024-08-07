@@ -8,7 +8,7 @@ using RentACarWeb.Languages;
 namespace RentACarWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CarController : Controller
+    public class CarController : BaseController
     {
 
         private readonly ApplicationDbContext _context;
