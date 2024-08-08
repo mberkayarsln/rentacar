@@ -35,7 +35,7 @@ namespace RentACarWeb.Controllers
                 FirstName = customerModel.FirstName,
                 LastName = customerModel.LastName,
                 Email = customerModel.Email,
-                UserName = customerModel.Email
+                UserName = customerModel.UserName
             };
 
             var result = await _userManager.CreateAsync(customer, customerModel.Password);
@@ -70,7 +70,7 @@ namespace RentACarWeb.Controllers
                 return View(customerModel);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(customerModel.Email, customerModel.Password, customerModel.RememberMe, false);
+            var result = await _signInManager.PasswordSignInAsync(customerModel.UserName, customerModel.Password, customerModel.RememberMe, false);
             if (result.Succeeded)
             {
                 return RedirectToLocal(returnUrl);

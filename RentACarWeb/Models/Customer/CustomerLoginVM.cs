@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace RentACarWeb.Models.Customer
 {
     public class CustomerLoginVM
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [DisplayName("Username:")]
+        public string UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
